@@ -104,9 +104,25 @@ function createSecondModal() {
     emailInput.type = "email";
     emailInput.placeholder = "Enter your email";
 
+    // Next button (initially disabled)
     const next1 = document.createElement("button");
     next1.textContent = "Next";
+    next1.className = "hero-button"; // Add class
+    next1.disabled = true;
     next1.onclick = () => goToStep(1);
+
+    // Validation function
+    function validateStep1() {
+      const nameValid = nameInput.value.trim() !== "";
+      const lastNameValid = lastNameInput.value.trim() !== "";
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+      next1.disabled = !(nameValid && lastNameValid && emailValid);
+    }
+
+    // Attach input event listeners
+    [nameInput, lastNameInput, emailInput].forEach((input) => {
+      input.addEventListener("input", validateStep1);
+    });
 
     step1.append(nameInput, lastNameInput, emailInput, next1);
     steps.push(step1);
@@ -128,16 +144,28 @@ function createSecondModal() {
       document.createTextNode(" I agree to the terms")
     );
 
-    // Next button
+    // Submit button (initially disabled)
     const next2 = document.createElement("button");
     next2.textContent = "Submit";
+    next2.className = "hero-button";
+    next2.disabled = true;
 
+    // Validation function
+    function validateStep2() {
+      const commentValid = commentInput.value.trim() !== "";
+      const isChecked = checkbox.checked;
+      next2.disabled = !(commentValid && isChecked);
+    }
+
+    // Attach input event listeners
+    commentInput.addEventListener("input", validateStep2);
+    checkbox.addEventListener("change", validateStep2);
+
+    // Submit action
     next2.onclick = () => {
-      if (checkbox.checked) {
-        progressBar.setProgressStep(steps.length); // Mark all steps as completed (turn all circles green)
-        goToStep(2); // Show the Thank You message step
-      } else {
-        alert("Please agree to the terms before proceeding.");
+      if (!next2.disabled) {
+        progressBar.setProgressStep(steps.length);
+        goToStep(2);
       }
     };
 

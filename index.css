@@ -93,7 +93,6 @@
   margin-bottom: 1.5rem; /* Add this line */
 }
 
-
 .step {
   display: flex;
   flex-direction: column;
@@ -133,7 +132,6 @@
 
 /* Steps CSS */
 
-
 .modal-step {
   display: none;
   flex-direction: column;
@@ -167,7 +165,6 @@
   background-color: #0056b3;
 }
 
-
 .step.active .icon-circle {
   background-color: #007bff;
 }
@@ -186,4 +183,40 @@
 
 .step.completed .step-label {
   color: #28a745;
+}
+
+/* Steps button css */
+
+.hero-button {
+  /* font-family: "Press Start 2P", cursive; */
+  font-size: 14px;
+  background-color: #4a752c;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  box-shadow: 4px 4px 0 #2e4719;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.hero-button:hover:not(:disabled) {
+  background-color: #3e6323;
+}
+
+.hero-button:focus {
+  outline: 2px solid #00f;
+  outline-offset: 2px;
+}
+
+.hero-button:disabled {
+  background-color: #e0dede;
+  color: #aaa;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.hero-button:active:not(:disabled) {
+  background-color: #36541f;
+  box-shadow: inset 2px 2px 0 #2e4719;
 }
