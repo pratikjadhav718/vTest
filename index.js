@@ -88,111 +88,256 @@ function createSecondModal() {
     const steps = [];
 
     // Step 1
-    const step1 = document.createElement("div");
-    step1.className = "modal-step active";
+    function createStep1() {
+      const step1 = document.createElement("div");
+      step1.className = "modal-step active";
 
-    // Name
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.placeholder = "Enter your first name";
-    // Last Name
-    const lastNameInput = document.createElement("input");
-    lastNameInput.type = "text";
-    lastNameInput.placeholder = "Enter your last name";
-    // Email
-    const emailInput = document.createElement("input");
-    emailInput.type = "email";
-    emailInput.placeholder = "Enter your email";
+      // --- NEW: Row for First Name and Last Name ---
+      const nameRow = document.createElement("div");
+      nameRow.className = "form-row";
 
-    // Next button (initially disabled)
-    const next1 = document.createElement("button");
-    next1.textContent = "Next";
-    next1.className = "hero-button"; // Add class
-    next1.disabled = true;
-    next1.onclick = () => goToStep(1);
+      // --- First Name Group ---
+      const firstNameGroup = document.createElement("div");
+      firstNameGroup.className = "input-group";
 
-    // Validation function
-    function validateStep1() {
-      const nameValid = nameInput.value.trim() !== "";
-      const lastNameValid = lastNameInput.value.trim() !== "";
-      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
-      next1.disabled = !(nameValid && lastNameValid && emailValid);
+      const firstNameLabel = document.createElement("label");
+      firstNameLabel.htmlFor = "firstNameInput"; // Good practice for accessibility
+      firstNameLabel.textContent = "First name";
+      const firstNameRequired = document.createElement("span");
+      firstNameRequired.className = "required-asterisk";
+      firstNameRequired.textContent = "*";
+      firstNameLabel.appendChild(firstNameRequired);
+
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.id = "firstNameInput"; // Match with label's htmlFor
+      nameInput.placeholder = "First name"; // Placeholder as in screenshot
+
+      // NEW: Validation message for first name
+      const firstNameError = document.createElement("div");
+      firstNameError.className = "validation-message";
+      firstNameError.id = "firstNameError";
+      firstNameError.textContent = "Please complete this required field.";
+
+      firstNameGroup.append(firstNameLabel, nameInput, firstNameError);
+
+      // --- Last Name Group ---
+      const lastNameGroup = document.createElement("div");
+      lastNameGroup.className = "input-group";
+
+      const lastNameLabel = document.createElement("label");
+      lastNameLabel.htmlFor = "lastNameInput";
+      lastNameLabel.textContent = "Last name";
+      // No asterisk for last name as per screenshot
+
+      const lastNameInput = document.createElement("input");
+      lastNameInput.type = "text";
+      lastNameInput.id = "lastNameInput";
+      lastNameInput.placeholder = "Last name"; // Placeholder as in screenshot
+
+      // NEW: Validation message for last name (optional, if you want one)
+      // const lastNameError = document.createElement("div");
+      // lastNameError.className = "validation-message";
+      // lastNameError.id = "lastNameError";
+      // lastNameError.textContent = "Please complete this required field.";
+
+      lastNameGroup.append(
+        lastNameLabel,
+        lastNameInput /*, lastNameError (if added)*/
+      );
+
+      nameRow.append(firstNameGroup, lastNameGroup); // Add groups to the row
+
+      // --- Email Group ---
+      const emailGroup = document.createElement("div");
+      emailGroup.className = "input-group"; // Use input-group for consistent spacing
+
+      const emailLabel = document.createElement("label");
+      emailLabel.htmlFor = "emailInput";
+      emailLabel.textContent = "Work Email"; // Label text from screenshot
+      const emailRequired = document.createElement("span");
+      emailRequired.className = "required-asterisk";
+      emailRequired.textContent = "*";
+      emailLabel.appendChild(emailRequired);
+
+      const emailInput = document.createElement("input");
+      emailInput.type = "email";
+      emailInput.id = "emailInput";
+      emailInput.placeholder = "Work email"; // Placeholder as in screenshot
+
+      // NEW: Validation message for email
+      const emailError = document.createElement("div");
+      emailError.className = "validation-message";
+      emailError.id = "emailError";
+      emailError.textContent = "Please complete this required field."; // Or "Please enter a valid email."
+
+      emailGroup.append(emailLabel, emailInput, emailError);
+
+      // Next button (initially disabled)
+      const next1 = document.createElement("button");
+      next1.textContent = "Next";
+      next1.className = "hero-button"; // Add class
+      next1.disabled = true;
+      next1.onclick = () => goToStep(1);
+
+      // Validation function
+      function validateStep1() {
+        const nameValid = nameInput.value.trim() !== "";
+        const lastNameValid = lastNameInput.value.trim() !== ""; // Keep this if last name is logically required, even if not marked with *
+        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+
+        // Show/Hide validation messages
+        firstNameError.style.display = nameValid ? "none" : "block";
+        // lastNameError.style.display = lastNameValid ? "none" : "block"; // If you add validation for last name
+        emailError.style.display = emailValid ? "none" : "block";
+        if (emailInput.value.trim() !== "" && !emailValid) {
+          emailError.textContent = "Please enter a valid email address.";
+        } else {
+          emailError.textContent = "Please complete this required field.";
+        }
+
+        next1.disabled = !(nameValid && lastNameValid && emailValid);
+      }
+
+      // Attach input event listeners
+      [nameInput, lastNameInput, emailInput].forEach((input) => {
+        input.addEventListener("input", validateStep1);
+      });
+
+      // Append elements to step1
+      step1.append(nameRow, emailGroup, next1);
+      // steps.push(step1);
+      return step1;
     }
-
-    // Attach input event listeners
-    [nameInput, lastNameInput, emailInput].forEach((input) => {
-      input.addEventListener("input", validateStep1);
-    });
-
-    step1.append(nameInput, lastNameInput, emailInput, next1);
-    steps.push(step1);
 
     // Step 2
-    const step2 = document.createElement("div");
-    step2.className = "modal-step";
+    function createStep2() {
+      const step2 = document.createElement("div");
+      step2.className = "modal-step";
 
-    // Textarea for comment
-    const commentInput = document.createElement("textarea");
-    commentInput.placeholder = "How can we help you?";
+      // --- Comment Group (NEW STRUCTURE) ---
+      const commentGroup = document.createElement("div");
+      commentGroup.className = "input-group"; // Use existing input-group class
 
-    // Checkbox for agreement
-    const agreeLabel = document.createElement("label");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    agreeLabel.append(
-      checkbox,
-      document.createTextNode(" I agree to the terms")
-    );
+      const commentLabel = document.createElement("label");
+      commentLabel.htmlFor = "commentInput";
+      commentLabel.textContent = "How can we help you?";
+      // Assuming comments are required, add asterisk
+      const commentRequiredAsterisk = document.createElement("span");
+      commentRequiredAsterisk.className = "required-asterisk";
+      commentRequiredAsterisk.textContent = "*";
+      commentLabel.appendChild(commentRequiredAsterisk);
 
-    // Submit button (initially disabled)
-    const next2 = document.createElement("button");
-    next2.textContent = "Submit";
-    next2.className = "hero-button";
-    next2.disabled = true;
+      const commentInput = document.createElement("textarea");
+      commentInput.id = "commentInput"; // Link to label
+      commentInput.placeholder = "Enter your comments or questions here..."; // Updated placeholder
+      commentInput.rows = 4; // Optional: suggest a size
 
-    // Validation function
-    function validateStep2() {
-      const commentValid = commentInput.value.trim() !== "";
-      const isChecked = checkbox.checked;
-      next2.disabled = !(commentValid && isChecked);
+      // NEW: Validation message for comment
+      const commentError = document.createElement("div");
+      commentError.className = "validation-message";
+      commentError.id = "commentError";
+      commentError.textContent = "Please provide some details."; // Example message
+      commentError.style.display = "none"; // Initially hidden
+
+      commentGroup.append(commentLabel, commentInput, commentError);
+
+      // --- Agreement Checkbox Group (SLIGHTLY REVISED STRUCTURE) ---
+      const agreementGroup = document.createElement("div");
+      agreementGroup.className = "input-group checkbox-group"; // Added checkbox-group for potential specific styling
+
+      const agreeLabel = document.createElement("label");
+      agreeLabel.className = "checkbox-label"; // Add class for specific styling
+      agreeLabel.htmlFor = "agreeCheckbox"; // Associate label with checkbox input
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = "agreeCheckbox"; // ID for the checkbox
+
+      const agreeText = document.createElement("span"); // Wrap text in a span for better control
+      agreeText.textContent = " I agree to the terms";
+
+      // Add asterisk if agreement is mandatory for submission
+      const agreeRequiredAsterisk = document.createElement("span");
+      agreeRequiredAsterisk.className = "required-asterisk";
+      agreeRequiredAsterisk.textContent = "*";
+
+      agreeLabel.append(checkbox, agreeText, agreeRequiredAsterisk); // Checkbox, then text, then asterisk
+
+      agreementGroup.append(agreeLabel);
+
+      // Submit button (initially disabled)
+      const next2 = document.createElement("button");
+      next2.textContent = "Submit";
+      next2.className = "hero-button"; // Assuming .hero-button styling is defined
+      next2.disabled = true;
+
+      // Validation function for Step 2
+      function validateStep2() {
+        const commentValid = commentInput.value.trim() !== "";
+        const isChecked = checkbox.checked;
+        commentError.style.display = commentValid ? "none" : "block";
+        next2.disabled = !(commentValid && isChecked);
+      }
+
+      // Attach input event listeners
+      commentInput.addEventListener("input", validateStep2);
+      checkbox.addEventListener("change", validateStep2);
+
+      // Submit action
+      next2.onclick = () => {
+        if (!next2.disabled) {
+          // Assuming progressBar and goToStep are defined elsewhere
+          if (
+            typeof progressBar !== "undefined" &&
+            progressBar.setProgressStep
+          ) {
+            progressBar.setProgressStep(steps.length); // Or the index of the "Thank You" step if it's fixed
+          }
+          goToStep(2); // Go to Step 3 (which is at index 2 if steps are 0, 1, 2)
+        }
+      };
+
+      step2.append(commentGroup, agreementGroup, next2); // Append new groups
+      // steps.push(step2);
+
+      return step2;
     }
 
-    // Attach input event listeners
-    commentInput.addEventListener("input", validateStep2);
-    checkbox.addEventListener("change", validateStep2);
-
-    // Submit action
-    next2.onclick = () => {
-      if (!next2.disabled) {
-        progressBar.setProgressStep(steps.length);
-        goToStep(2);
-      }
-    };
-
-    step2.append(commentInput, agreeLabel, next2);
-    steps.push(step2);
-
     // Step 3 (Thank You)
-    const step3 = document.createElement("div");
-    step3.className = "modal-step";
+    function createStep3() {
+      const step3 = document.createElement("div");
+      step3.className = "modal-step";
 
-    // Thank you message shown immediately
-    const thankYouMessage = document.createElement("p");
-    thankYouMessage.textContent = "🎉 Thank you for submitting the form!";
-    const next3 = document.createElement("button");
-    next3.textContent = "Close";
+      // Thank you message shown immediately
+      const thankYouMessage = document.createElement("p");
+      thankYouMessage.textContent = "🎉 Thank you for submitting the form!";
+      const next3 = document.createElement("button");
+      next3.textContent = "Close";
 
-    // Close second model button
-    next3.addEventListener("click", () => {
-      modal.style.display = "none";
-      resetModal(); // <-- reset on close
-    });
+      // Close second model button
+      next3.addEventListener("click", () => {
+        modal.style.display = "none";
+        resetModal(); // <-- reset on close
+      });
 
-    step3.append(thankYouMessage, next3);
+      step3.append(thankYouMessage, next3);
 
-    steps.push(step3);
+      // steps.push(step3);
+
+      return step3;
+    }
 
     // Append all steps
+    const step1 = createStep1();
+    steps.push(step1);
+
+    const step2 = createStep2();
+    steps.push(step2);
+
+    const step3 = createStep3();
+    steps.push(step3);
+
     return steps;
   }
 
