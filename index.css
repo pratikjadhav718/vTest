@@ -85,18 +85,14 @@
   background-color: #666;
 }
 
-/* .progress-bar {
-  display: flex;
-} */
-
-/* Progress Bar CSS */
-
 .progress-bar {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  margin-bottom: 1.5rem; /* Add this line */
 }
+
 
 .step {
   display: flex;
