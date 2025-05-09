@@ -151,36 +151,7 @@
   margin: 0 8px;
 }
 
-/* Steps CSS */
-
-
-
-.modal-step button:hover {
-  background-color: #0056b3;
-}
-
-.step.active .icon-circle {
-  background-color: #007bff;
-}
-
-.step.active .icon-circle svg {
-  stroke: white;
-}
-
-.step.completed .icon-circle {
-  background-color: #28a745;
-}
-
-.step.completed .icon-circle svg {
-  stroke: white;
-}
-
-.step.completed .step-label {
-  color: #28a745;
-}
-
 /* Steps button css */
-
 .hero-button {
   font-size: 14px;
   background-color: #4a752c;
@@ -214,45 +185,68 @@
   box-shadow: inset 2px 2px 0 #2e4719;
 }
 
+.modal-step .hero-button {
+  margin-top: 1rem;
+}
 
 /* Steps CSS */
+.modal-step button:hover {
+  background-color: #0056b3;
+}
+
+.step.active .icon-circle {
+  background-color: #007bff;
+}
+
+.step.active .icon-circle svg {
+  stroke: white;
+}
+
+.step.completed .icon-circle {
+  background-color: #28a745;
+}
+
+.step.completed .icon-circle svg {
+  stroke: white;
+}
+
+.step.completed .step-label {
+  color: #28a745;
+}
+
 .modal-step {
   display: none;
   flex-direction: column;
-  gap: 1rem; /* Overall gap between elements in a step */
+  gap: 1rem;
 }
 
 .modal-step.active {
   display: flex;
 }
 
-/* NEW: Container for side-by-side inputs */
 .form-row {
   display: flex;
-  gap: 1rem; /* Gap between first name and last name inputs */
+  gap: 1rem;
   width: 100%;
 }
 
-/* NEW: Styling for individual input groups (label + input) */
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem; /* Gap between label and input */
-  flex-grow: 1; /* Allows inputs in a row to share space */
+  gap: 0.3rem;
+  flex-grow: 1;
 }
 
-/* NEW: Styling for labels */
 .modal-step label {
-  font-size: 0.9rem; /* Adjust as needed */
-  color: #333; /* Darker text for labels */
-  text-align: left; /* Align labels to the left */
-  font-weight: bold; /* Make labels bold */
+  font-size: 0.9rem;
+  color: #333;
+  text-align: left;
+  font-weight: bold;
 }
 
-/* NEW: Style for the asterisk */
 .modal-step label .required-asterisk {
   color: red;
-  margin-left: 2px; /* Small space before the asterisk */
+  margin-left: 2px;
 }
 
 .modal-step input,
@@ -261,18 +255,17 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%; /* Make inputs take full width of their container */
-  box-sizing: border-box; /* Important for width calculation with padding */
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* NEW: Styling for validation messages */
 .validation-message {
   font-size: 0.85rem;
   color: red;
-  text-align: left; /* Align validation messages to the left */
-  margin-top: -0.5rem; /* Adjust to position it closer to the input */
-  margin-bottom: 0.5rem; /* Add some space before the next element */
-  display: none; /* Hidden by default */
+  text-align: left;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  display: none;
 }
 
 .modal-step button {
@@ -283,59 +276,35 @@
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 1rem; /* Add some margin above the button */
+  margin-top: 1rem;
 }
-
-
-/* ... (rest of your CSS, including .hero-button styles) ... */
 
 .input-group textarea {
-  /* Inherits most styles from .modal-step textarea */
-  box-sizing: border-box; /* Important if not globally set for inputs/textareas */
-  /* min-height: 80px; /* Optional: suggest a minimum height */
-}
-
-/* Styling for checkbox groups and labels (NEW or REFINED) */
-.checkbox-group {
-  /* You might want some margin if it's too close to other elements */
-  /* margin-top: 0.5rem; */
-  /* text-align: left; /* Ensure alignment if the parent isn't handling it */
+  box-sizing: border-box;
 }
 
 .checkbox-label {
-  display: flex; /* Aligns checkbox and text nicely on the same line */
-  align-items: center; /* Vertically centers items in the label */
-  font-size: 0.95rem; /* Or match your standard label font size */
-  font-weight: normal; /* Standard text weight, not bold like input labels */
-  color: #555; /* Or your standard text color */
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: normal;
+  color: #555;
   cursor: pointer;
-  gap: 0.5rem; /* Adds a small space between the checkbox and the text */
+  gap: 0.5rem;
 }
 
 .checkbox-label input[type="checkbox"] {
-  width: auto; /* Override the 100% width from general input styles */
-  height: auto; /* Override general input styles */
-  margin: 0; /* Remove default browser margins for the checkbox itself */
-  /* accent-color: #007bff; /* Optional: Modern way to color the checkbox tick */
+  width: auto;
+  height: auto;
+  margin: 0;
 }
 
-/* Ensure the asterisk in checkbox label is also styled if you use .required-asterisk */
 .checkbox-label .required-asterisk {
-  /* Styles for asterisk (e.g., color: red;) should be inherited if .required-asterisk is defined globally */
-  margin-left: 0.25rem; /* Adjust spacing if needed */
+  margin-left: 0.25rem;
 }
 
-/* Ensure the hero-button (Submit button) has appropriate margin if needed */
-.modal-step .hero-button {
-  margin-top: 1rem; /* Add some space above the button */
-}
-
-/* //////////////////////////////////////////////////////// */
-/* //////////////////////////////////////////////////////// */
 /* //////////////////////////////////////////////////////// */
 /* Footer CSS */
-/* //////////////////////////////////////////////////////// */
-/* //////////////////////////////////////////////////////// */
 /* //////////////////////////////////////////////////////// */
 
 .footer-drawer {
@@ -356,17 +325,10 @@
   position: absolute;
   top: -30px;
   right: 45%;
-  /* background: #333;
-  color: #fff; */
-  background: #ff0; /* Yellow background */
-
-  color: #000; /* Black text */
-
+  background: #ff0;
+  color: #000;
   font-weight: bold;
-
   padding: 6px 14px;
-
-  /* padding: 5px 10px; */
   border-radius: 6px 6px 0 0;
   cursor: pointer;
   display: flex;
@@ -431,8 +393,6 @@
   }
 }
 
-/* Sticky drawer */
-
 /* Container for drawer title and nav */
 .drawer-tab {
   display: flex;
@@ -472,7 +432,6 @@
   /* border: 1px solid rebeccapurple; */
 }
 
-/* Pagination text (1/2) */
 .page-info {
   font-size: 13px;
   color: #444;
@@ -494,7 +453,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 9998; /* just below the drawer */
+  z-index: 9998;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;

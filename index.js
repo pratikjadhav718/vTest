@@ -37,8 +37,7 @@ function createFirstModal() {
     // Show drawer only after modal is gone
     initFooterDrawer();
   });
-
-  return button; // Return the button for event binding
+  return button;
 }
 
 // Function to create the second modal
@@ -53,7 +52,7 @@ function createSecondModal() {
     const progressBar = document.createElement("div");
     progressBar.className = "progress-bar";
 
-    const stepElements = []; // To track icon steps
+    const stepElements = [];
 
     steps.forEach((step, index) => {
       const stepContainer = document.createElement("div");
@@ -86,7 +85,6 @@ function createSecondModal() {
         el.classList.toggle("completed", i < index);
       });
 
-      // Special case: if index === stepElements.length, mark all completed
       if (index === stepElements.length) {
         stepElements.forEach((el) => el.classList.add("completed"));
       }
@@ -97,7 +95,6 @@ function createSecondModal() {
 
   function createFormSteps() {
     // Create step containers
-
     function goToStep(index) {
       steps.forEach((s, i) => {
         s.classList.toggle("active", i === index);
@@ -112,16 +109,14 @@ function createSecondModal() {
       const step1 = document.createElement("div");
       step1.className = "modal-step active";
 
-      // --- NEW: Row for First Name and Last Name ---
       const nameRow = document.createElement("div");
       nameRow.className = "form-row";
 
-      // --- First Name Group ---
       const firstNameGroup = document.createElement("div");
       firstNameGroup.className = "input-group";
 
       const firstNameLabel = document.createElement("label");
-      firstNameLabel.htmlFor = "firstNameInput"; // Good practice for accessibility
+      firstNameLabel.htmlFor = "firstNameInput";
       firstNameLabel.textContent = "First name";
       const firstNameRequired = document.createElement("span");
       firstNameRequired.className = "required-asterisk";
@@ -130,51 +125,38 @@ function createSecondModal() {
 
       const nameInput = document.createElement("input");
       nameInput.type = "text";
-      nameInput.id = "firstNameInput"; // Match with label's htmlFor
-      nameInput.placeholder = "First name"; // Placeholder as in screenshot
-
-      // NEW: Validation message for first name
+      nameInput.id = "firstNameInput";
+      nameInput.placeholder = "First name";
       const firstNameError = document.createElement("div");
       firstNameError.className = "validation-message";
       firstNameError.id = "firstNameError";
       firstNameError.textContent = "Please complete this required field.";
-
       firstNameGroup.append(firstNameLabel, nameInput, firstNameError);
 
-      // --- Last Name Group ---
       const lastNameGroup = document.createElement("div");
       lastNameGroup.className = "input-group";
 
       const lastNameLabel = document.createElement("label");
       lastNameLabel.htmlFor = "lastNameInput";
       lastNameLabel.textContent = "Last name";
-      // No asterisk for last name as per screenshot
-
       const lastNameInput = document.createElement("input");
       lastNameInput.type = "text";
       lastNameInput.id = "lastNameInput";
-      lastNameInput.placeholder = "Last name"; // Placeholder as in screenshot
-
-      // NEW: Validation message for last name (optional, if you want one)
-      // const lastNameError = document.createElement("div");
-      // lastNameError.className = "validation-message";
-      // lastNameError.id = "lastNameError";
-      // lastNameError.textContent = "Please complete this required field.";
+      lastNameInput.placeholder = "Last name";
 
       lastNameGroup.append(
         lastNameLabel,
-        lastNameInput /*, lastNameError (if added)*/
+        lastNameInput
       );
 
-      nameRow.append(firstNameGroup, lastNameGroup); // Add groups to the row
+      nameRow.append(firstNameGroup, lastNameGroup);
 
-      // --- Email Group ---
       const emailGroup = document.createElement("div");
-      emailGroup.className = "input-group"; // Use input-group for consistent spacing
+      emailGroup.className = "input-group";
 
       const emailLabel = document.createElement("label");
       emailLabel.htmlFor = "emailInput";
-      emailLabel.textContent = "Work Email"; // Label text from screenshot
+      emailLabel.textContent = "Work Email";
       const emailRequired = document.createElement("span");
       emailRequired.className = "required-asterisk";
       emailRequired.textContent = "*";
@@ -183,32 +165,29 @@ function createSecondModal() {
       const emailInput = document.createElement("input");
       emailInput.type = "email";
       emailInput.id = "emailInput";
-      emailInput.placeholder = "Work email"; // Placeholder as in screenshot
+      emailInput.placeholder = "Work email";
 
-      // NEW: Validation message for email
       const emailError = document.createElement("div");
       emailError.className = "validation-message";
       emailError.id = "emailError";
-      emailError.textContent = "Please complete this required field."; // Or "Please enter a valid email."
-
+      emailError.textContent = "Please complete this required field.";
       emailGroup.append(emailLabel, emailInput, emailError);
 
       // Next button (initially disabled)
       const next1 = document.createElement("button");
       next1.textContent = "Next";
-      next1.className = "hero-button"; // Add class
+      next1.className = "hero-button";
       next1.disabled = true;
       next1.onclick = () => goToStep(1);
 
       // Validation function
       function validateStep1() {
         const nameValid = nameInput.value.trim() !== "";
-        const lastNameValid = lastNameInput.value.trim() !== ""; // Keep this if last name is logically required, even if not marked with *
+        const lastNameValid = lastNameInput.value.trim() !== "";
         const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
 
         // Show/Hide validation messages
         firstNameError.style.display = nameValid ? "none" : "block";
-        // lastNameError.style.display = lastNameValid ? "none" : "block"; // If you add validation for last name
         emailError.style.display = emailValid ? "none" : "block";
         if (emailInput.value.trim() !== "" && !emailValid) {
           emailError.textContent = "Please enter a valid email address.";
@@ -226,7 +205,6 @@ function createSecondModal() {
 
       // Append elements to step1
       step1.append(nameRow, emailGroup, next1);
-      // steps.push(step1);
       return step1;
     }
 
@@ -235,61 +213,53 @@ function createSecondModal() {
       const step2 = document.createElement("div");
       step2.className = "modal-step";
 
-      // --- Comment Group (NEW STRUCTURE) ---
       const commentGroup = document.createElement("div");
-      commentGroup.className = "input-group"; // Use existing input-group class
+      commentGroup.className = "input-group";
 
       const commentLabel = document.createElement("label");
       commentLabel.htmlFor = "commentInput";
       commentLabel.textContent = "How can we help you?";
-      // Assuming comments are required, add asterisk
       const commentRequiredAsterisk = document.createElement("span");
       commentRequiredAsterisk.className = "required-asterisk";
       commentRequiredAsterisk.textContent = "*";
       commentLabel.appendChild(commentRequiredAsterisk);
 
       const commentInput = document.createElement("textarea");
-      commentInput.id = "commentInput"; // Link to label
-      commentInput.placeholder = "Enter your comments or questions here..."; // Updated placeholder
-      commentInput.rows = 4; // Optional: suggest a size
+      commentInput.id = "commentInput";
+      commentInput.placeholder = "Enter your comments or questions here...";
+      commentInput.rows = 4;
 
-      // NEW: Validation message for comment
       const commentError = document.createElement("div");
       commentError.className = "validation-message";
       commentError.id = "commentError";
-      commentError.textContent = "Please provide some details."; // Example message
-      commentError.style.display = "none"; // Initially hidden
-
+      commentError.textContent = "Please provide some details.";
+      commentError.style.display = "none";
       commentGroup.append(commentLabel, commentInput, commentError);
 
-      // --- Agreement Checkbox Group (SLIGHTLY REVISED STRUCTURE) ---
       const agreementGroup = document.createElement("div");
-      agreementGroup.className = "input-group checkbox-group"; // Added checkbox-group for potential specific styling
+      agreementGroup.className = "input-group checkbox-group";
 
       const agreeLabel = document.createElement("label");
-      agreeLabel.className = "checkbox-label"; // Add class for specific styling
-      agreeLabel.htmlFor = "agreeCheckbox"; // Associate label with checkbox input
+      agreeLabel.className = "checkbox-label";
+      agreeLabel.htmlFor = "agreeCheckbox";
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.id = "agreeCheckbox"; // ID for the checkbox
+      checkbox.id = "agreeCheckbox";
 
-      const agreeText = document.createElement("span"); // Wrap text in a span for better control
+      const agreeText = document.createElement("span");
       agreeText.textContent = " I agree to the terms";
 
-      // Add asterisk if agreement is mandatory for submission
       const agreeRequiredAsterisk = document.createElement("span");
       agreeRequiredAsterisk.className = "required-asterisk";
       agreeRequiredAsterisk.textContent = "*";
-
-      agreeLabel.append(checkbox, agreeText, agreeRequiredAsterisk); // Checkbox, then text, then asterisk
+      agreeLabel.append(checkbox, agreeText, agreeRequiredAsterisk);
 
       agreementGroup.append(agreeLabel);
 
-      // Submit button (initially disabled)
       const next2 = document.createElement("button");
       next2.textContent = "Submit";
-      next2.className = "hero-button"; // Assuming .hero-button styling is defined
+      next2.className = "hero-button";
       next2.disabled = true;
 
       // Validation function for Step 2
@@ -300,27 +270,22 @@ function createSecondModal() {
         next2.disabled = !(commentValid && isChecked);
       }
 
-      // Attach input event listeners
       commentInput.addEventListener("input", validateStep2);
       checkbox.addEventListener("change", validateStep2);
 
-      // Submit action
       next2.onclick = () => {
         if (!next2.disabled) {
-          // Assuming progressBar and goToStep are defined elsewhere
           if (
             typeof progressBar !== "undefined" &&
             progressBar.setProgressStep
           ) {
-            progressBar.setProgressStep(steps.length); // Or the index of the "Thank You" step if it's fixed
+            progressBar.setProgressStep(steps.length);
           }
-          goToStep(2); // Go to Step 3 (which is at index 2 if steps are 0, 1, 2)
+          goToStep(2);
         }
       };
 
-      step2.append(commentGroup, agreementGroup, next2); // Append new groups
-      // steps.push(step2);
-
+      step2.append(commentGroup, agreementGroup, next2);
       return step2;
     }
 
@@ -337,12 +302,11 @@ function createSecondModal() {
 
       // Close second model button
       next3.addEventListener("click", () => {
-
         // modal.style.display = "none";
         // resetModal(); // <-- reset on close
 
         modal.classList.remove("show");
-  
+
         // Wait for animation to finish before hiding
         setTimeout(() => {
           modal.style.display = "none";
@@ -362,10 +326,9 @@ function createSecondModal() {
           // document.body.removeChild(overlay);
           // document.body.removeChild(box);
           document.body.classList.remove("modal-active");
-      
+
           // Show drawer only after modal is gone
           initFooterDrawer();
-
         }, 300);
       });
 
@@ -420,7 +383,7 @@ function createSecondModal() {
   modal.addEventListener("click", (event) => {
     if (!content.contains(event.target)) {
       modal.classList.remove("show");
-  
+
       // Wait for animation to finish before hiding
       setTimeout(() => {
         modal.style.display = "none";
@@ -600,11 +563,9 @@ initModals();
 //   // const blogHeader = document.querySelector('.blog-header__title');
 //   // if (!blogHeader) return;
 
-
 //     if (document.body.classList.contains("modal-active")) return;
 
 //     // Existing drawer creation code follows...
-  
 
 //   const drawer = document.createElement("div");
 //   drawer.className = "footer-drawer";
@@ -727,9 +688,8 @@ function initFooterDrawer() {
   drawer.appendChild(slider);
 
   const backdrop = document.createElement("div");
-backdrop.className = "footer-backdrop";
-document.body.appendChild(backdrop);
-
+  backdrop.className = "footer-backdrop";
+  document.body.appendChild(backdrop);
 
   document.body.appendChild(drawer);
 
@@ -744,7 +704,6 @@ document.body.appendChild(backdrop);
     drawer.classList.remove("open");
     backdrop.classList.remove("visible");
   });
-  
 
   window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -817,9 +776,3 @@ document.body.appendChild(backdrop);
       updatePagination();
     });
 }
-
-// initFooterDrawer();
-
-
-// Call manually after load
-// initFooterDrawer();
