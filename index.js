@@ -1,7 +1,14 @@
-// Function to create the first modal
 function createFirstModal() {
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay";
+  overlay.id = "firstModalOverlay";
+  document.body.appendChild(overlay);
+
+  // Create modal box
   const box = document.createElement("div");
   box.className = "conversion-box";
+  box.id = "firstModalBox";
 
   const heading = document.createElement("h1");
   heading.textContent = "Hello Conversion!";
@@ -17,6 +24,19 @@ function createFirstModal() {
   box.appendChild(button);
 
   document.body.appendChild(box);
+
+  // Mark modal as active
+  document.body.classList.add("modal-active");
+
+  // Dismiss on overlay click
+  overlay.addEventListener("click", () => {
+    document.body.removeChild(overlay);
+    document.body.removeChild(box);
+    document.body.classList.remove("modal-active");
+
+    // Show drawer only after modal is gone
+    initFooterDrawer();
+  });
 
   return button; // Return the button for event binding
 }
@@ -317,8 +337,36 @@ function createSecondModal() {
 
       // Close second model button
       next3.addEventListener("click", () => {
-        modal.style.display = "none";
-        resetModal(); // <-- reset on close
+
+        // modal.style.display = "none";
+        // resetModal(); // <-- reset on close
+
+        modal.classList.remove("show");
+  
+        // Wait for animation to finish before hiding
+        setTimeout(() => {
+          modal.style.display = "none";
+          resetModal();
+
+          const overlay = document.getElementById("firstModalOverlay");
+          const box = document.getElementById("firstModalBox");
+
+          if (overlay && document.body.contains(overlay)) {
+            document.body.removeChild(overlay);
+          }
+
+          if (box && document.body.contains(box)) {
+            document.body.removeChild(box);
+          }
+
+          // document.body.removeChild(overlay);
+          // document.body.removeChild(box);
+          document.body.classList.remove("modal-active");
+      
+          // Show drawer only after modal is gone
+          initFooterDrawer();
+
+        }, 300);
       });
 
       step3.append(thankYouMessage, next3);
@@ -362,10 +410,22 @@ function createSecondModal() {
   document.body.appendChild(modal);
 
   // Close modal when clicking outside the modal content
+  // modal.addEventListener("click", (event) => {
+  //   if (!content.contains(event.target)) {
+  //     modal.style.display = "none";
+  //     resetModal();
+  //   }
+  // });
+
   modal.addEventListener("click", (event) => {
     if (!content.contains(event.target)) {
-      modal.style.display = "none";
-      resetModal();
+      modal.classList.remove("show");
+  
+      // Wait for animation to finish before hiding
+      setTimeout(() => {
+        modal.style.display = "none";
+        resetModal();
+      }, 300); // same duration as in CSS
     }
   });
 
@@ -437,11 +497,329 @@ function initModals() {
   const triggerButton = createFirstModal();
   const secondModal = createSecondModal();
 
+  document.body.classList.add("modal-active");
+
   // Show second modal on button click
   triggerButton.addEventListener("click", () => {
     secondModal.style.display = "flex";
+
+    requestAnimationFrame(() => {
+      secondModal.classList.add("show");
+    });
   });
 }
 
 // Run the modal setup on page load
 initModals();
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// FOOTER Drawer //
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+// function initFooterDrawer() {
+//   // const blogHeader = document.querySelector('.blog-header__title');
+//   // if (!blogHeader) return;
+
+//   const drawer = document.createElement('div');
+//   drawer.className = 'footer-drawer';
+
+//   const tab = document.createElement('div');
+//   tab.className = 'drawer-tab';
+//   tab.textContent = 'More Content';
+
+//   const chevron = document.createElement('span');
+//   chevron.className = 'chevron';
+//   chevron.textContent = '⌃';
+//   tab.appendChild(chevron);
+
+//   const slider = document.createElement('div');
+//   slider.className = 'slider-container';
+//   slider.id = 'slider';
+
+//   drawer.appendChild(tab);
+//   drawer.appendChild(slider);
+//   document.body.appendChild(drawer);
+
+//   tab.addEventListener('click', () => {
+//     drawer.classList.toggle('open');
+//   });
+
+//   window.addEventListener('scroll', () => {
+//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+//       drawer.classList.remove('open');
+//     }
+//   });
+
+//   fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
+//     .then(res => res.json())
+//     .then(async data => {
+//       for (let i = 0; i < data.results.length; i++) {
+//         const poke = data.results[i];
+//         const details = await fetch(poke.url).then(r => r.json());
+
+//         const slide = document.createElement('div');
+//         slide.className = 'slide';
+
+//         const tooltip = document.createElement('div');
+//         tooltip.className = 'tooltip';
+//         tooltip.textContent = poke.name;
+
+//         const title = document.createElement('h4');
+//         title.textContent = poke.name.charAt(0).toUpperCase() + poke.name.slice(1);
+
+//         const img = document.createElement('img');
+//         img.src = details.sprites.front_default;
+//         img.alt = poke.name;
+
+//         const desc = document.createElement('p');
+//         desc.textContent = `Height: ${details.height} | Weight: ${details.weight}`;
+
+//         const button = document.createElement('button');
+//         button.textContent = 'Flip Me';
+//         button.addEventListener('click', () => alert(`You clicked on ${poke.name}!`));
+
+//         slide.appendChild(tooltip);
+//         slide.appendChild(title);
+//         slide.appendChild(img);
+//         slide.appendChild(desc);
+//         slide.appendChild(button);
+
+//         slider.appendChild(slide);
+//       }
+//     });
+// }
+
+// // Call the function manually in console
+// initFooterDrawer();
+
+// function initFooterDrawer() {
+//   // const blogHeader = document.querySelector('.blog-header__title');
+//   // if (!blogHeader) return;
+
+
+//     if (document.body.classList.contains("modal-active")) return;
+
+//     // Existing drawer creation code follows...
+  
+
+//   const drawer = document.createElement("div");
+//   drawer.className = "footer-drawer";
+
+//   const tab = document.createElement("div");
+//   tab.className = "drawer-tab";
+//   tab.textContent = "Sticky Drawer";
+
+//   const chevron = document.createElement("span");
+//   chevron.className = "chevron";
+//   chevron.textContent = "⌃";
+//   tab.appendChild(chevron);
+
+//   const slider = document.createElement("div");
+//   slider.className = "slider-container";
+//   slider.id = "slider";
+
+//   drawer.appendChild(tab);
+//   drawer.appendChild(slider);
+//   document.body.appendChild(drawer);
+
+//   tab.addEventListener("click", () => {
+//     drawer.classList.toggle("open");
+//   });
+
+//   window.addEventListener("scroll", () => {
+//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+//       drawer.classList.remove("open");
+//     }
+//   });
+
+//   fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
+//     .then((res) => res.json())
+//     .then(async (data) => {
+//       for (let i = 0; i < data.results.length; i++) {
+//         const poke = data.results[i];
+//         const details = await fetch(poke.url).then((r) => r.json());
+
+//         const slide = document.createElement("div");
+//         slide.className = "slide";
+
+//         const tooltip = document.createElement("div");
+//         tooltip.className = "tooltip";
+//         tooltip.textContent = poke.name;
+
+//         const title = document.createElement("h4");
+//         title.textContent =
+//           poke.name.charAt(0).toUpperCase() + poke.name.slice(1);
+
+//         const img = document.createElement("img");
+//         img.src = details.sprites.front_default;
+//         img.alt = poke.name;
+
+//         const desc = document.createElement("p");
+//         desc.textContent = `Height: ${details.height} | Weight: ${details.weight}`;
+
+//         const button = document.createElement("button");
+//         button.textContent = "Flip Me";
+//         button.addEventListener("click", () =>
+//           alert(`You clicked on ${poke.name}!`)
+//         );
+
+//         slide.appendChild(tooltip);
+//         slide.appendChild(title);
+//         slide.appendChild(img);
+//         slide.appendChild(desc);
+//         slide.appendChild(button);
+
+//         slider.appendChild(slide);
+//       }
+//     });
+// }
+
+// Updated sticky drawer script with arrow navigation and pagination
+function initFooterDrawer() {
+  if (document.body.classList.contains("modal-active")) return;
+
+  const drawer = document.createElement("div");
+  drawer.className = "footer-drawer";
+
+  const tab = document.createElement("div");
+  tab.className = "drawer-tab";
+
+  const title = document.createElement("span");
+  title.className = "drawer-title";
+  title.textContent = "Sticky Drawer";
+
+  const nav = document.createElement("div");
+  nav.className = "drawer-nav";
+
+  const leftArrow = document.createElement("button");
+  leftArrow.className = "nav-arrow left";
+  leftArrow.textContent = "  \u2039  ";
+
+  const pageInfo = document.createElement("span");
+  pageInfo.className = "page-info";
+  pageInfo.textContent = "1/1";
+
+  const rightArrow = document.createElement("button");
+  rightArrow.className = "nav-arrow right";
+  rightArrow.textContent = "  \u203A  ";
+
+  nav.appendChild(leftArrow);
+  nav.appendChild(pageInfo);
+  nav.appendChild(rightArrow);
+
+  const chevron = document.createElement("span");
+  chevron.className = "chevron";
+  chevron.textContent = "\u2304";
+
+  tab.appendChild(title);
+  tab.appendChild(nav);
+  tab.appendChild(chevron);
+
+  const slider = document.createElement("div");
+  slider.className = "slider-container";
+  slider.id = "slider";
+
+  drawer.appendChild(tab);
+  drawer.appendChild(slider);
+
+  const backdrop = document.createElement("div");
+backdrop.className = "footer-backdrop";
+document.body.appendChild(backdrop);
+
+
+  document.body.appendChild(drawer);
+
+  tab.addEventListener("click", () => {
+    // drawer.classList.toggle("open");
+
+    const isOpen = drawer.classList.toggle("open");
+    backdrop.classList.toggle("visible", isOpen);
+  });
+
+  backdrop.addEventListener("click", () => {
+    drawer.classList.remove("open");
+    backdrop.classList.remove("visible");
+  });
+  
+
+  window.addEventListener("scroll", () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      drawer.classList.remove("open");
+      backdrop.classList.remove("visible");
+    }
+  });
+
+  let currentPage = 1;
+  let totalPages = 1;
+
+  function updatePagination() {
+    totalPages = Math.ceil(slider.scrollWidth / slider.clientWidth);
+    const scrollLeft = slider.scrollLeft;
+    currentPage = Math.round(scrollLeft / slider.clientWidth) + 1;
+    pageInfo.textContent = `${currentPage}/${totalPages}`;
+  }
+
+  leftArrow.addEventListener("click", (e) => {
+    e.stopPropagation();
+    slider.scrollBy({ left: -slider.clientWidth, behavior: "smooth" });
+  });
+
+  rightArrow.addEventListener("click", (e) => {
+    e.stopPropagation();
+    slider.scrollBy({ left: slider.clientWidth, behavior: "smooth" });
+  });
+
+  slider.addEventListener("scroll", updatePagination);
+
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
+    .then((res) => res.json())
+    .then(async (data) => {
+      for (let i = 0; i < data.results.length; i++) {
+        const poke = data.results[i];
+        const details = await fetch(poke.url).then((r) => r.json());
+
+        const slide = document.createElement("div");
+        slide.className = "slide";
+
+        const tooltip = document.createElement("div");
+        tooltip.className = "tooltip";
+        tooltip.textContent = poke.name;
+
+        const title = document.createElement("h4");
+        title.textContent =
+          poke.name.charAt(0).toUpperCase() + poke.name.slice(1);
+
+        const img = document.createElement("img");
+        img.src = details.sprites.front_default;
+        img.alt = poke.name;
+
+        const desc = document.createElement("p");
+        desc.textContent = `Height: ${details.height} | Weight: ${details.weight}`;
+
+        const button = document.createElement("button");
+        button.textContent = "Flip Me";
+        button.addEventListener("click", () =>
+          alert(`You clicked on ${poke.name}!`)
+        );
+
+        slide.appendChild(tooltip);
+        slide.appendChild(title);
+        slide.appendChild(img);
+        slide.appendChild(desc);
+        slide.appendChild(button);
+
+        slider.appendChild(slide);
+      }
+      updatePagination();
+    });
+}
+
+// initFooterDrawer();
+
+
+// Call manually after load
+// initFooterDrawer();
