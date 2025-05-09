@@ -440,9 +440,6 @@ function initModals() {
   });
 }
 
-// Run the modal setup on page load
-initModals();
-
 //////////////////////////////////////////////////////////
 // FOOTER Drawer //
 //////////////////////////////////////////////////////////
@@ -581,3 +578,14 @@ function initFooterDrawer() {
       updatePagination();
     });
 }
+
+function removeOldForm() {
+  const kamWorldDiv = document.querySelector('.kam-world');
+  if (kamWorldDiv) {
+    kamWorldDiv.remove();
+  }
+}
+
+// Run the modal setup on page load
+removeOldForm();
+initModals();
