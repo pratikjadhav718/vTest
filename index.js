@@ -144,10 +144,7 @@ function createSecondModal() {
       lastNameInput.id = "lastNameInput";
       lastNameInput.placeholder = "Last name";
 
-      lastNameGroup.append(
-        lastNameLabel,
-        lastNameInput
-      );
+      lastNameGroup.append(lastNameLabel, lastNameInput);
 
       nameRow.append(firstNameGroup, lastNameGroup);
 
@@ -289,25 +286,18 @@ function createSecondModal() {
       return step2;
     }
 
-    // Step 3 (Thank You)
+    // Step 3
     function createStep3() {
       const step3 = document.createElement("div");
       step3.className = "modal-step";
 
-      // Thank you message shown immediately
       const thankYouMessage = document.createElement("p");
       thankYouMessage.textContent = "🎉 Thank you for submitting the form!";
       const next3 = document.createElement("button");
       next3.textContent = "Close";
 
-      // Close second model button
       next3.addEventListener("click", () => {
-        // modal.style.display = "none";
-        // resetModal(); // <-- reset on close
-
         modal.classList.remove("show");
-
-        // Wait for animation to finish before hiding
         setTimeout(() => {
           modal.style.display = "none";
           resetModal();
@@ -322,20 +312,13 @@ function createSecondModal() {
           if (box && document.body.contains(box)) {
             document.body.removeChild(box);
           }
-
-          // document.body.removeChild(overlay);
-          // document.body.removeChild(box);
           document.body.classList.remove("modal-active");
-
           // Show drawer only after modal is gone
           initFooterDrawer();
         }, 300);
       });
 
       step3.append(thankYouMessage, next3);
-
-      // steps.push(step3);
-
       return step3;
     }
 
@@ -364,36 +347,21 @@ function createSecondModal() {
   progressBar.setProgressStep(0);
 
   // Append all elements
-
   content.appendChild(progressBar);
-
   steps.forEach((step) => content.appendChild(step));
-
   modal.appendChild(content);
   document.body.appendChild(modal);
-
-  // Close modal when clicking outside the modal content
-  // modal.addEventListener("click", (event) => {
-  //   if (!content.contains(event.target)) {
-  //     modal.style.display = "none";
-  //     resetModal();
-  //   }
-  // });
 
   modal.addEventListener("click", (event) => {
     if (!content.contains(event.target)) {
       modal.classList.remove("show");
-
-      // Wait for animation to finish before hiding
       setTimeout(() => {
         modal.style.display = "none";
         resetModal();
-      }, 300); // same duration as in CSS
+      }, 300);
     }
   });
 
-  // Close handler
-  // Reset modal to initial state
   function resetModal() {
     // Reset all inputs
     modal.querySelectorAll("input, textarea").forEach((el) => {
@@ -426,7 +394,7 @@ function getCartIconSVG() {
   `;
 
   const template = document.createElement("template");
-  template.innerHTML = svgString.trim(); // trim to avoid unwanted whitespace nodes
+  template.innerHTML = svgString.trim();
   return template.content.firstChild;
 }
 
@@ -476,170 +444,9 @@ function initModals() {
 initModals();
 
 //////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
 // FOOTER Drawer //
 //////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
 
-// function initFooterDrawer() {
-//   // const blogHeader = document.querySelector('.blog-header__title');
-//   // if (!blogHeader) return;
-
-//   const drawer = document.createElement('div');
-//   drawer.className = 'footer-drawer';
-
-//   const tab = document.createElement('div');
-//   tab.className = 'drawer-tab';
-//   tab.textContent = 'More Content';
-
-//   const chevron = document.createElement('span');
-//   chevron.className = 'chevron';
-//   chevron.textContent = '⌃';
-//   tab.appendChild(chevron);
-
-//   const slider = document.createElement('div');
-//   slider.className = 'slider-container';
-//   slider.id = 'slider';
-
-//   drawer.appendChild(tab);
-//   drawer.appendChild(slider);
-//   document.body.appendChild(drawer);
-
-//   tab.addEventListener('click', () => {
-//     drawer.classList.toggle('open');
-//   });
-
-//   window.addEventListener('scroll', () => {
-//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-//       drawer.classList.remove('open');
-//     }
-//   });
-
-//   fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
-//     .then(res => res.json())
-//     .then(async data => {
-//       for (let i = 0; i < data.results.length; i++) {
-//         const poke = data.results[i];
-//         const details = await fetch(poke.url).then(r => r.json());
-
-//         const slide = document.createElement('div');
-//         slide.className = 'slide';
-
-//         const tooltip = document.createElement('div');
-//         tooltip.className = 'tooltip';
-//         tooltip.textContent = poke.name;
-
-//         const title = document.createElement('h4');
-//         title.textContent = poke.name.charAt(0).toUpperCase() + poke.name.slice(1);
-
-//         const img = document.createElement('img');
-//         img.src = details.sprites.front_default;
-//         img.alt = poke.name;
-
-//         const desc = document.createElement('p');
-//         desc.textContent = `Height: ${details.height} | Weight: ${details.weight}`;
-
-//         const button = document.createElement('button');
-//         button.textContent = 'Flip Me';
-//         button.addEventListener('click', () => alert(`You clicked on ${poke.name}!`));
-
-//         slide.appendChild(tooltip);
-//         slide.appendChild(title);
-//         slide.appendChild(img);
-//         slide.appendChild(desc);
-//         slide.appendChild(button);
-
-//         slider.appendChild(slide);
-//       }
-//     });
-// }
-
-// // Call the function manually in console
-// initFooterDrawer();
-
-// function initFooterDrawer() {
-//   // const blogHeader = document.querySelector('.blog-header__title');
-//   // if (!blogHeader) return;
-
-//     if (document.body.classList.contains("modal-active")) return;
-
-//     // Existing drawer creation code follows...
-
-//   const drawer = document.createElement("div");
-//   drawer.className = "footer-drawer";
-
-//   const tab = document.createElement("div");
-//   tab.className = "drawer-tab";
-//   tab.textContent = "Sticky Drawer";
-
-//   const chevron = document.createElement("span");
-//   chevron.className = "chevron";
-//   chevron.textContent = "⌃";
-//   tab.appendChild(chevron);
-
-//   const slider = document.createElement("div");
-//   slider.className = "slider-container";
-//   slider.id = "slider";
-
-//   drawer.appendChild(tab);
-//   drawer.appendChild(slider);
-//   document.body.appendChild(drawer);
-
-//   tab.addEventListener("click", () => {
-//     drawer.classList.toggle("open");
-//   });
-
-//   window.addEventListener("scroll", () => {
-//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-//       drawer.classList.remove("open");
-//     }
-//   });
-
-//   fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
-//     .then((res) => res.json())
-//     .then(async (data) => {
-//       for (let i = 0; i < data.results.length; i++) {
-//         const poke = data.results[i];
-//         const details = await fetch(poke.url).then((r) => r.json());
-
-//         const slide = document.createElement("div");
-//         slide.className = "slide";
-
-//         const tooltip = document.createElement("div");
-//         tooltip.className = "tooltip";
-//         tooltip.textContent = poke.name;
-
-//         const title = document.createElement("h4");
-//         title.textContent =
-//           poke.name.charAt(0).toUpperCase() + poke.name.slice(1);
-
-//         const img = document.createElement("img");
-//         img.src = details.sprites.front_default;
-//         img.alt = poke.name;
-
-//         const desc = document.createElement("p");
-//         desc.textContent = `Height: ${details.height} | Weight: ${details.weight}`;
-
-//         const button = document.createElement("button");
-//         button.textContent = "Flip Me";
-//         button.addEventListener("click", () =>
-//           alert(`You clicked on ${poke.name}!`)
-//         );
-
-//         slide.appendChild(tooltip);
-//         slide.appendChild(title);
-//         slide.appendChild(img);
-//         slide.appendChild(desc);
-//         slide.appendChild(button);
-
-//         slider.appendChild(slide);
-//       }
-//     });
-// }
-
-// Updated sticky drawer script with arrow navigation and pagination
 function initFooterDrawer() {
   if (document.body.classList.contains("modal-active")) return;
 
@@ -694,8 +501,6 @@ function initFooterDrawer() {
   document.body.appendChild(drawer);
 
   tab.addEventListener("click", () => {
-    // drawer.classList.toggle("open");
-
     const isOpen = drawer.classList.toggle("open");
     backdrop.classList.toggle("visible", isOpen);
   });
